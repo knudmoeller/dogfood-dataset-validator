@@ -1,0 +1,15 @@
+# get the URI of the main conference event
+# we assume there is only one such event per dataset (i.e., file)
+# we should be able to identify it by looking for a triple 
+# linking it to a graph URI (which will be used as the graph id 
+# in the dogfood store)
+
+PREFIX swc:  <http://data.semanticweb.org/ns/swc/ontology#>
+
+SELECT DISTINCT ?conference_uri
+WHERE {
+  GRAPH ?g {
+    ?conference_uri a swc:ConferenceEvent ;
+      swc:completeGraph ?graph .
+  }
+}

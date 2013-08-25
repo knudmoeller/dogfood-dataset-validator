@@ -1,0 +1,24 @@
+# we check if all required triples for the main conference event
+# are present
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>                          
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>                                     
+PREFIX ical: <http://www.w3.org/2002/12/cal/ical#>                            
+PREFIX icaltzid: <http://www.w3.org/2002/12/cal/icaltzid#>                            
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>                                 
+PREFIX swc:  <http://data.semanticweb.org/ns/swc/ontology#>
+SELECT DISTINCT ?name ?homepage ?type ?page ?sameAs ?seeAlso ?graph ?logo     
+WHERE {        
+  GRAPH ?g {                                                               
+  	<$dogfood_uri> rdfs:label ?name .
+  	{ <$dogfood_uri> icaltzid:url ?homepage } UNION 
+  	    { <$dogfood_uri> ical:url ?homepage } UNION 
+  	    { <$dogfood_uri> foaf:homepage ?homepage }
+  	<$dogfood_uri> a swc:ConferenceEvent .                   
+  	<$dogfood_uri> swc:completeGraph ?graph. 
+  	OPTIONAL { {<$dogfood_uri> swc:hasLogo ?logo} UNION {<$dogfood_uri> foaf:logo ?logo}  }                                              
+  	OPTIONAL { <$dogfood_uri> foaf:page ?page .	}                                              
+  	OPTIONAL { <$dogfood_uri> owl:sameAs ?sameAs . }                                              
+  	OPTIONAL { <$dogfood_uri> rdfs:seeAlso ?seeAlso . }
+  }
+}

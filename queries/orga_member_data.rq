@@ -1,0 +1,18 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX swc:  <http://data.semanticweb.org/ns/swc/ontology#> 
+PREFIX swrc: <http://swrc.ontoware.org/ontology#> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT DISTINCT ?member_url ?member_name ?event_uri ?event_acronym ?prefLabel
+WHERE { 
+  GRAPH ?g { 
+    { <$dogfood_uri> foaf:member ?member_url } UNION 
+      { ?member_url swrc:affiliation <$dogfood_uri>  }
+    { ?member_url foaf:name ?member_name . } UNION
+      { ?member_url rdfs:label ?member_name . }
+    ?event_uri swc:completeGraph ?g . 
+    ?event_uri swc:hasAcronym ?event_acronym .
+    OPTIONAL { ?member_url skos:prefLabel ?prefLabel . }
+  } 
+} 
+ORDER BY ?member_url ?event_acronym

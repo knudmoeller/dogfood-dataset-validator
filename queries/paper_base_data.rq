@@ -1,0 +1,34 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX dc:   <http://purl.org/dc/elements/1.1/>
+PREFIX dct:   <http://purl.org/dc/terms/>
+PREFIX swrc: <http://swrc.ontoware.org/ontology#>
+PREFIX swc:  <http://data.semanticweb.org/ns/swc/ontology#>
+# SELECT DISTINCT ?name ?abstract ?webpage ?sameAs ?seeAlso ?event ?conference_uri ?conference_name ?conference_acronym ?keyword
+SELECT DISTINCT *
+WHERE {
+	GRAPH ?graph {                                              
+		{<$dogfood_uri> dc:title ?name } UNION 
+			{ <$dogfood_uri> dct:title ?name } UNION 
+			{ <$dogfood_uri> rdfs:label ?name } .
+		OPTIONAL { <$dogfood_uri> swrc:abstract ?abstract. }
+		OPTIONAL { <$dogfood_uri> swrc:url ?webpage. }
+		OPTIONAL { <$dogfood_uri> rdfs:seeAlso ?seeAlso. }
+		OPTIONAL { <$dogfood_uri> owl:sameAs ?sameAs. }
+		OPTIONAL { <$dogfood_uri> swc:relatedToEvent ?event. }
+  	# various ways of indicating the topic of a paper have been used...
+  	OPTIONAL {                                            
+  		{ <$dogfood_uri> swrc:keywords ?keyword. } UNION 
+  		{ <$dogfood_uri> dc:subject ?keyword. }	UNION 
+  		{                                        
+  			{ <$dogfood_uri> swc:hasTopic ?topic } UNION 
+  			{ <$dogfood_uri> foaf:topic ?topic }.     
+  			?topic rdfs:label ?keyword . 
+  		}
+  	}
+  	?conference_uri swc:completeGraph ?graph .         
+  	?conference_uri rdfs:label ?conference_name .      
+  	?conference_uri swc:hasAcronym ?conference_acronym .
+  }
+}

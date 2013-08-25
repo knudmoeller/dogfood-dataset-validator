@@ -1,0 +1,20 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+PREFIX owl:  <http://www.w3.org/2002/07/owl#> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> 
+SELECT DISTINCT ?name ?homepage ?page ?sameAs ?seeAlso ?latitude ?longitude 
+WHERE {
+  GRAPH ?g {
+    { <$dogfood_uri> foaf:name ?name . } UNION
+      { <$dogfood_uri> rdfs:label ?name . }
+    OPTIONAL { <$dogfood_uri> foaf:page ?page. } 
+    OPTIONAL { <$dogfood_uri> owl:sameAs ?sameAs. } 
+    OPTIONAL { <$dogfood_uri> rdfs:seeAlso ?seeAlso. } 
+    OPTIONAL { <$dogfood_uri> foaf:homepage ?homepage. } 
+    OPTIONAL { 
+      <$dogfood_uri> foaf:based_near ?location. 
+      ?location geo:lat ?latitude. 
+      ?location geo:long ?longitude. 
+    }
+  }
+}

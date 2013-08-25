@@ -1,0 +1,7 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>                                     
+
+SELECT DISTINCT ?entity ?name
+WHERE {
+  ?entity foaf:name ?name
+  FILTER(regex(?name, " and ", "i"))
+}

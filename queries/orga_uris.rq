@@ -1,0 +1,8 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?person_uri
+WHERE {
+  GRAPH ?g {
+    ?person_uri a foaf:Organization .
+  }
+}

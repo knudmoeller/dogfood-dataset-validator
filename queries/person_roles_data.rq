@@ -1,0 +1,14 @@
+PREFIX swc: <http://data.semanticweb.org/ns/swc/ontology#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?event_uri ?event_acronym ?role_uri ?role_label
+WHERE {
+  GRAPH ?g {
+    { <$dogfood_uri> swc:holdsRole ?role_uri . } UNION
+      { ?role_uri swc:heldBy <$dogfood_uri> . }
+    ?role_uri rdfs:label ?role_label. 
+    ?event_uri swc:completeGraph ?g ;
+    swc:hasAcronym ?event_acronym.
+  }
+}
+ORDER BY ?event_acronym

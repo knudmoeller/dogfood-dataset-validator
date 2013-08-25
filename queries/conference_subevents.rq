@@ -1,0 +1,12 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX swc:	 <http://data.semanticweb.org/ns/swc/ontology#>
+SELECT DISTINCT ?related_event_uri ?related_event_name ?related_event_acronym
+WHERE {
+  GRAPH ?g {
+    <$dogfood_uri> swc:isSuperEventOf ?related_event_uri .
+  	?related_event_uri a swc:WorkshopEvent ;
+  	  rdfs:label ?related_event_name ;
+  	  swc:hasAcronym ?related_event_acronym .
+	}
+}
+ORDER BY ?related_event_acronym
