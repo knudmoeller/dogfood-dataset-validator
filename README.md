@@ -6,6 +6,7 @@ Knud Möller
 Ruby code to run a series of SPARQL queries over an RDF dataset of a conference or workshop event. The queries are (more or less) identical to those that produce the output on http://data.semanticweb.org, and in this way validate if the dataset contains the correct data to be displayed.
 
 * a single dataset can be validated using the validate.rb script
+* validate_all.sh shows how to run the script for a number of datasets and write the output to a bunch of .log files
 * running the script requires that a Fuseki server (http://jena.apache.org/documentation/serving_data/) is running on http://localhost:3030 (the default Fuseki setup)
 * the script is run like this:
 
